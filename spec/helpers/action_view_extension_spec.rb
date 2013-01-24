@@ -14,6 +14,17 @@ describe 'Kaminari::ActionViewExtension' do
         lambda { helper.escape_javascript(helper.paginate @users, :params => {:controller => 'users', :action => 'index'}) }.should_not raise_error
       end
     end
+    
+    context 'rendering custom links' do
+      context 'should render links derived from the handed params hash' do
+        before do
+          50.times { |i| User::Address.create! :street => "2#{i} Jump Street", :user_id => @users.first.id}
+          @addresses = User.first.addresses.page(1)
+        end
+        subject { helper.paginate @addresses, :route => {:controller => "users", :action => "index"} }
+        it { should match(/href=\"\/users\?page=2/) }
+      end
+    end
   end
 
   describe '#link_to_previous_page' do

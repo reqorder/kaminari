@@ -18,7 +18,9 @@ app.initialize!
 
 # routes
 app.routes.draw do
-  resources :users
+  resources :users do 
+    resources :addresses
+  end
 end
 
 #models
