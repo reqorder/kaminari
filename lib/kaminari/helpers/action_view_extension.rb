@@ -15,18 +15,11 @@ module Kaminari
     # * <tt>:remote</tt> - Ajax? (false by default)
     # * <tt>:ANY_OTHER_VALUES</tt> - Any other hash key & values would be directly passed into each tag as :locals value.
     def paginate(scope, options = {}, &block)
-      Rails.logger.error "_______________________________________________________\n"
-      Rails.logger.error "paginate"
-      Rails.logger.error "_______________________________________________________\n"
-      Rails.logger.error "initial options: #{options}"
-      Rails.logger.error "has_key?(:params) ==> #{options.has_key?(:params) } || has_key?('params') ==> #{options.has_key?('params') }"
-      Rails.logger.error "has_key?(:route) ==> #{options.has_key?(:route) } || route ==> #{options[:route] if options[:route]}"
       if route = options.delete(:route)
         options.delete(:params)
         options[:params] = route
       end
       init_opts = options.reverse_merge(:current_page => scope.current_page, :total_pages => scope.total_pages, :per_page => scope.limit_value, :param_name => Kaminari.config.param_name, :remote => false)
-      Rails.logger.error "init_opts: #{init_opts}"
       paginator = Kaminari::Helpers::Paginator.new self, init_opts
       paginator.to_s
     end
@@ -74,10 +67,6 @@ module Kaminari
     #     <span>No More Pages</span>
     #   <% end %>
     def link_to_next_page(scope, name, options = {}, &block)
-      Rails.logger.error "_______________________________________________________\nin #link_to_next_page\n"
-      Rails.logger.error "initial options: #{options}"
-      Rails.logger.error "has_key?(:params) ==> #{options.has_key?(:params) } || has_key?('params') ==> #{options.has_key?('params') }"
-      Rails.logger.error "_______________________________________________________"
       params = options.delete(:params) || {}
       param_name = options.delete(:param_name) || Kaminari.config.param_name
       link_to_unless scope.last_page?, name, params.merge(param_name => (scope.current_page + 1)), options.reverse_merge(:rel => 'next') do
