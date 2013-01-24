@@ -26,6 +26,10 @@ module Kaminari
         #FIXME for compatibility. remove num_pages at some time in the future
         @options[:total_pages] ||= @options[:num_pages]
         @last = nil
+        Rails.logger.error "---------------------------------------------------------"
+        Rails.logger.error "---------       in Paginator#initialize         ---------"
+        Rails.logger.error "--------- @options :: #{@options}"
+        Rails.logger.error "---------------------------------------------------------"
         # initialize the output_buffer for Context
         @output_buffer = ActionView::OutputBuffer.new
       end
@@ -61,6 +65,10 @@ module Kaminari
       private :relevant_pages
 
       def page_tag(page)
+        Rails.logger.error "---------------------------------------------------------"
+        Rails.logger.error "---------         in Paginator#page_tag         ---------"
+        Rails.logger.error "--------- @options :: #{@options}"
+        Rails.logger.error "---------------------------------------------------------"
         @last = Page.new @template, @options.merge(:page => page)
       end
 
