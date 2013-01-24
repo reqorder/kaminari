@@ -17,23 +17,22 @@ module Kaminari
         @template, @options = template, options.dup
         @param_name = @options.delete(:param_name)
         Rails.logger.error "_______________________________________________________\nin Tag#initialize \n\n"
-        Rails.logger.error "+++ template.params:: #{template.params}"
-        Rails.logger.error "+++ options[:params]:: #{options[:params]}"
-        Rails.logger.error "+++ options['params']:: #{options['params']}"
+        Rails.logger.error "template.params:: #{template.params}"
+        Rails.logger.error "options[:params]:: #{options[:params]} || options['params']:: #{options['params']}"
         @theme = @options[:theme] ? "#{@options.delete(:theme)}/" : ''
         @params = @options[:params] ? template.params.merge(@options.delete :params) : template.params
-        Rails.logger.error "+++ params in initialize: #{@params}"
+        Rails.logger.error "params in initialize: #{@params}"
       end
 
       def to_s(locals = {}) #:nodoc:
         Rails.logger.error "_______________________________________________________\nin Tag#to_s \n\n"
-        Rails.logger.error "+++ locals: #{locals}"
+        # Rails.logger.error "locals: #{locals.to_s}" unless locals.empty?
         @template.render :partial => "kaminari/#{@theme}#{self.class.name.demodulize.underscore}", :locals => @options.merge(locals)
       end
 
       def page_url_for(page)
         Rails.logger.error "_______________________________________________________\nin Tag#page_url_for \n\n"
-        Rails.logger.error "+++ params in tags: #{@params}"
+        Rails.logger.error "params in tags: #{@params}"
         @template.url_for @params.merge(@param_name => (page <= 1 ? nil : page))
       end
     end
