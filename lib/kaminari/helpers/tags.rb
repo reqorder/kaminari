@@ -18,6 +18,7 @@ module Kaminari
         @param_name = @options.delete(:param_name)
         @theme = @options[:theme] ? "#{@options.delete(:theme)}/" : ''
         @params = @options[:params] ? template.params.merge(@options.delete :params) : template.params
+        Rails.logger.error "+++ params in tags: #{@params}"
       end
 
       def to_s(locals = {}) #:nodoc:
